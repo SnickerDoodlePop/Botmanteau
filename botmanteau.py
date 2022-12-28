@@ -61,4 +61,4 @@ async def on_message(message: discord.Message = ""):
         except IndexError:
             continue
         
-client.run('OTE1MDQ2NzU1NTQyOTIxMjg2.GTt-bD.ctIOvBKVglxZj-gDeqEUpyVCjbK4XfirPAfFRQ')
+client.run("Your bot token here")
