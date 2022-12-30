@@ -9,9 +9,12 @@ intents.message_content = True
 
 client = discord.Client(intents=intents)
 
+
 def is_vowel(char: str) -> bool:
     return char.lower() in ('a', 'e', 'i', 'o', 'u', 'y')
 
+
+#make a portmanteau o3o
 def portmanteau(word: str, next_word: str) -> str:
     newWord: str = ""
     
@@ -34,6 +37,7 @@ def portmanteau(word: str, next_word: str) -> str:
             newWord += next_word[secondPartIdx:]
             return newWord
         
+        
 #garbage function lmao 
 def canBePortmanteaued(word: str, next_word: str) -> bool:
     return      len(word) >= 2 \
@@ -43,9 +47,11 @@ def canBePortmanteaued(word: str, next_word: str) -> bool:
             and word != next_word \
             and word[0] != next_word[0]
 
+
 @client.event
 async def on_ready():
     print("Botmanteau V1.1 Online")
+
 
 prevWords = []
 
