@@ -2,7 +2,7 @@
 
 import discord
 from random import randint
-from key import BotToken
+from BotToken import BotToken
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -33,6 +33,7 @@ def portManTeau(word: str, next_word: str) -> str:
         elif is_vowel(letter):
             newWord += next_word[secondPartIdx:]
             return newWord
+        
             
 def can_be_portmanteaued(word: str, next_word: str) -> bool:
     return      len(word) >= 2 \
@@ -78,24 +79,32 @@ async def on_message(message: discord.Message = ""):
         
         words = words.strip().split()
         
-        newWords = [word.lower() for word in words if word != "and" and word != "the"]
+        newWords = []
+        if len(words) >= 4:
+            return
+        
+        elif len(words) == 3:
+            newWords = [word.lower() for word in words if word != "and" and word != "the"]
+            if len(newWords) >= 3:
+                return
+            
+        else:
+            newWords = [word.lower() for word in words]
+        
         words = newWords
-
+        
         global prevWords
-
         for word in prevWords:
             if word in words:
                 return
 
         prevWords = [word for word in words]
-        
         for idx in range(len(words)):
             try:
                 if can_be_portmanteaued(words[idx], words[idx+1]):
                     print("Plus it can be portmanteau'd!")
                     if randint(0, 2) >= 0 and len(message.content) <= 1000:
                         print(f"^^^^ that's a bingo!!")
-                        #reply_msg = words[idx][0] + words[idx+1][1:]
                         reply_msg = words[idx] + " + " + words[idx + 1] + ": " + portManTeau(words[idx], words[idx+1])
                         await message.reply(reply_msg.lower())
                         return
