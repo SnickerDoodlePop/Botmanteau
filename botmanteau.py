@@ -12,7 +12,7 @@ client = discord.Client(intents=intents)
 def is_vowel(char: str) -> bool:
     return char.lower() in ('a', 'e', 'i', 'o', 'u', 'y')
 
-def portManTeau(word: str, next_word: str) -> str:
+def portmanteau(word: str, next_word: str) -> str:
     newWord: str = ""
     
     #append first word
@@ -35,7 +35,7 @@ def portManTeau(word: str, next_word: str) -> str:
             return newWord
         
 #garbage function lmao 
-def can_be_portmanteaued(word: str, next_word: str) -> bool:
+def canBePortmanteaued(word: str, next_word: str) -> bool:
     return      len(word) >= 2 \
             and len(next_word) >= 2 \
             and not is_vowel(next_word[0]) \
@@ -112,8 +112,8 @@ async def on_message(message: discord.Message = ""):
                     await message.reply(reply_msg)
                     return
                 
-                if can_be_portmanteaued(words[idx], words[idx+1]):
-                    reply_msg = words[idx] + " + " + words[idx + 1] + ": " + portManTeau(words[idx], words[idx+1])
+                if canBePortmanteaued(words[idx], words[idx+1]):
+                    reply_msg = words[idx] + " + " + words[idx + 1] + ": " + portmanteau(words[idx], words[idx+1])
                     await message.reply(reply_msg.lower())
                     return
             
