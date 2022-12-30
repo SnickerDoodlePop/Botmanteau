@@ -10,7 +10,7 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 def is_vowel(char: str) -> bool:
-    return char.lower() in ('a', 'e', 'i', 'o', 'u')
+    return char.lower() in ('a', 'e', 'i', 'o', 'u', 'y')
 
 def portManTeau(word: str, next_word: str) -> str:
     newWord: str = ""
@@ -34,7 +34,7 @@ def portManTeau(word: str, next_word: str) -> str:
             newWord += next_word[secondPartIdx:]
             return newWord
         
-            
+#garbage function lmao 
 def can_be_portmanteaued(word: str, next_word: str) -> bool:
     return      len(word) >= 2 \
             and len(next_word) >= 2 \
@@ -55,7 +55,7 @@ async def on_message(message: discord.Message = ""):
         print(f"message: {message.content}")
         words = message.content
         
-        #wtf is this
+        #clean up the message
         words = words.replace('\"','')
         words = words.replace(',','')
         words = words.replace('.','')
@@ -79,6 +79,7 @@ async def on_message(message: discord.Message = ""):
         
         words = words.strip().split()
         
+        #remove "and" and "the" such as in the case of "pepsi and milk" or "milk the pepsi"
         newWords = []
         if len(words) >= 4:
             return
@@ -98,22 +99,29 @@ async def on_message(message: discord.Message = ""):
             if word in words:
                 return
 
+        #save current words as to not reply to the bots' own messages
         prevWords = [word for word in words]
+        
+        #parse through words in cleaned up message;
+        #portmanteau if possible
         for idx in range(len(words)):
             try:
+                #special case
+                if words[idx].lower() == "banana" and words[idx + 1].lower() == "burger":
+                    reply_msg = "banurger"
+                    await message.reply(reply_msg)
+                    return
+                
                 if can_be_portmanteaued(words[idx], words[idx+1]):
-                    print("Plus it can be portmanteau'd!")
-                    if randint(0, 2) >= 0 and len(message.content) <= 1000:
-                        print(f"^^^^ that's a bingo!!")
-                        reply_msg = words[idx] + " + " + words[idx + 1] + ": " + portManTeau(words[idx], words[idx+1])
-                        await message.reply(reply_msg.lower())
-                        return
+                    reply_msg = words[idx] + " + " + words[idx + 1] + ": " + portManTeau(words[idx], words[idx+1])
+                    await message.reply(reply_msg.lower())
+                    return
             
-            #this should never happen
             except IndexError:
-                continue
+                return
             
     except Exception as e:
-        print(Exception)
+        print(e)
+        return
         
 client.run(BotToken.KEY)
