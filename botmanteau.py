@@ -8,7 +8,6 @@ intents.message_content = True
 
 client = discord.Client(intents=intents)
 
-
 def is_vowel(char: str) -> bool:
     return char.lower() in ('a', 'e', 'i', 'o', 'u')
 
