@@ -1,8 +1,7 @@
 #botmanteau v1.1 - a moderately annoying discord bot that creates portmanteaus out of user's messages
 
 import discord
-from random import randint
-from BotToken import BotToken
+from BotToken import KEY
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -129,4 +128,4 @@ async def on_message(message: discord.Message = ""):
         print("Botmanteau caught exception:\n" + e)
         return
 
-client.run(BotToken.KEY)
+client.run(KEY)
